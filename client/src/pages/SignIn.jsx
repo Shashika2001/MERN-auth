@@ -17,33 +17,42 @@ export default function SignIn() {
   const handleChange = (e) => {
     setFormData({...formData, [e.target.id]: e.target.value});
   };
-  const handleSubmit =async (e) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
-   try {
-    dispatch(signINStart());
-    
-    const res= await fetch('/api/auth/signin',{
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    });
-    const data = await res.json();
-   
-    if(data.success===false){
-     dispatch(signINFailure(data));
-
-      return;
+    try {
+      dispatch(signINStart());
+  
+      const res = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (!res.ok) {
+        const errorData = await res.json();
+        dispatch(signINFailure(errorData));
+        return;
+      }
+  
+      const data = await res.json();
+      if (!data.success) {
+        dispatch(signINFailure(data));
+        return;
+      }
+  
+      dispatch(signINSuccess(data));
+      navigate('/');
+    } catch (error) {
+      dispatch(signINFailure({ message: error.message || 'An unexpected error occurred.' }));
     }
-    dispatch(signINSuccess(data));
-    navigate('/');
-   } catch (error) {
-   dispatch(signINFailure(error));
-   }
+  };
+  
    
     
-  };
+  
  
   return (
     <div className='p-3 max-w-lg mx-auto'>
