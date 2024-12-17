@@ -3,6 +3,7 @@ import { useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import { signINStart,signINSuccess,signINFailure } from '../redux/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import OAuth from '../components/OAuth';
 
 export default function SignIn() {
   const[formData, setFormData] = useState({});
@@ -30,18 +31,22 @@ export default function SignIn() {
         },
         body: JSON.stringify(formData),
       });
+     //console.log(res);
   
       if (!res.ok) {
         const errorData = await res.json();
         dispatch(signINFailure(errorData));
         return;
       }
+      //console.log(res);
   
       const data = await res.json();
+      console.log(data);
       if (!data.success) {
         dispatch(signINFailure(data));
         return;
       }
+      console.log(data);
   
       dispatch(signINSuccess(data));
       navigate('/');
@@ -80,6 +85,7 @@ export default function SignIn() {
       {loading ? 'Loading...' : 'Sign in'}
       
     </button>
+    <OAuth/>
     </form>
     <div className='flex gap-2 mt-5'>
       <p>Don't Have an account?</p>
@@ -88,9 +94,9 @@ export default function SignIn() {
       </Link>
     </div>
     <div>
-      <p className='text-red-700 mt-5'>
-        {error ? error.message|| 'Something went wrong!':''}
-      </p>
+    <p className='text-red-700 mt-5'>
+  {error ? (error.message || JSON.stringify(error) || 'Something went wrong!') : ''}
+</p>
     </div>
     </div>
 
