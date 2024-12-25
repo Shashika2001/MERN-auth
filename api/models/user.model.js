@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     },
     profilePicture: {
         type: String,
-        default: "https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369991.png",
+        default: "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg",
     },
 }, { timestamps: true });
 
