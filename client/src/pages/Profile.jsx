@@ -2,7 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRef, useState } from "react";
 
 import { useDispatch } from "react-redux";
-import { updateUserStart,updateUserSuccess,updateUserFailure, signINSuccess } from "../redux/user/userSlice";
+import { updateUserStart,updateUserSuccess,
+  updateUserFailure, 
+  signINSuccess, 
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure
+ } from "../redux/user/userSlice";
 import { navigate } from "react-router-dom";
 export default function Profile() {
   const dispatch = useDispatch();
@@ -38,6 +44,24 @@ export default function Profile() {
 
     }
   };
+  const handleDeleteAccount = async()=>{
+    try{
+      dispatch(deleteUserStart());
+      const res=await fetch(`/api/user/delete/${currentUser._id}`,{
+        method:'DELETE',
+      });
+      const data=await res.json();
+      if(data.success===false){
+        dispatch(updateUserFailure(data));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+      
+    }
+    catch(error){
+      dispatch(deleteUserFailure(error));
+    }
+  }
      
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -76,7 +100,7 @@ export default function Profile() {
 
       </form>
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 cursor-pointer">
+        <span onClick={handleDeleteAccount} className="text-red-700 cursor-pointer">
           Delete Account
         </span>
         <span className="text-red-700 cursor-pointer">
