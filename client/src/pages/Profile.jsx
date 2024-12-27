@@ -7,7 +7,8 @@ import { updateUserStart,updateUserSuccess,
   signINSuccess, 
   deleteUserStart,
   deleteUserSuccess,
-  deleteUserFailure
+  deleteUserFailure,
+  signOUT
  } from "../redux/user/userSlice";
 import { navigate } from "react-router-dom";
 export default function Profile() {
@@ -61,7 +62,16 @@ export default function Profile() {
     catch(error){
       dispatch(deleteUserFailure(error));
     }
-  }
+  };
+  const handleSignOut = async ()=>{
+    try{
+      await fetch('/api/auth/signout');
+      dispatch(signOUT());
+    }
+    catch(error){
+      console.log(error);
+    }
+  };
      
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -103,7 +113,7 @@ export default function Profile() {
         <span onClick={handleDeleteAccount} className="text-red-700 cursor-pointer">
           Delete Account
         </span>
-        <span className="text-red-700 cursor-pointer">
+        <span onClick={handleSignOut} className="text-red-700 cursor-pointer">
           Sign Out
         </span>
         <p className="text-red-700 mt-5">{error && "Something went wrong!"}</p>

@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import { sign } from 'jsonwebtoken';
 
 
 const initialState = {
@@ -48,8 +49,13 @@ const userSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        signOUT: (state) => {
+            state.currentUser = null;
+            state.loading = false;
+            state.error = false;
         
-    }
+    },
+}
 });
 
 export const {signINStart,
@@ -61,6 +67,7 @@ export const {signINStart,
         deleteUserStart,
         deleteUserSuccess,
         deleteUserFailure,
+        signOUT,
     } = userSlice.actions;
 
 export default userSlice.reducer;
