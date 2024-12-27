@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useRef, useState } from "react";
 
-import { useDispatch } from "react-redux";
+
 import { updateUserStart,updateUserSuccess,
   updateUserFailure, 
   signINSuccess, 
@@ -10,7 +10,7 @@ import { updateUserStart,updateUserSuccess,
   deleteUserFailure,
   signOUT
  } from "../redux/user/userSlice";
-import { navigate } from "react-router-dom";
+
 export default function Profile() {
   const dispatch = useDispatch();
   const {currentUser,loading,error} = useSelector(state => state.user);
