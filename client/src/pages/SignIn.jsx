@@ -94,7 +94,7 @@ export default function SignIn() {
       </Link>
     </div>
     <div>
-    <p className='text-red-700 mt-5'>
+    <p className='text-blue-700 mt-5'>
   {error ? (error.message || JSON.stringify(error) || 'Something went wrong!') : ''}
 </p>
     </div>
